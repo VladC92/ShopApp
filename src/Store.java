@@ -1,19 +1,99 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Store extends App {
+public class Store {
     Scanner scanner = new Scanner(System.in);
     List<Client> clientList = new ArrayList<>();
 
-    void addClient() {
-        Client client = new Client(scanner.nextLine());
-            if (clientList.contains(client)) {
-                System.out.println("Client already exist");
+    public static void main(String[] args) {
+        final String ADD_CLIENT = "ADAUGA_CLIENT";
+        final String ADD_PRODUCT = "ADAUGA_PRODUS_STOC";
+        final String cartAdd = "ADAUGA_PRODUS_COS";
+        final String eraseProduct = "STERGE_PRODUS";
+        final String eraseAllProduct = "STERGE_TOATE_PRODUSELE";
+        final String clientList = "AFISARE_CLIENTI";
+        final String showCart = "AFISARE_COS";
+        final String showAll = "AFISARE_COMPLETA";
+        final String Exit = "EXIT";
+        Store store = new Store();
+        Scanner scan = new Scanner(System.in);
+        while (true) {
+            String command = scan.nextLine();
+            if (command.startsWith(ADD_CLIENT)) {
+                store.addClient();
+
+            } else if (command.startsWith(ADD_PRODUCT)) {
+                System.out.println("Please choose one of the 3 section's we have : laptop , tv or phone");
+                store.laptopStock();
+                store.tvStock();
+                store.mobilePhoneStock();
+
+            } else if (command.startsWith(cartAdd)) {
+                store.laptopCartAdd();
+                store.tvCartAdd();
+                store.phoneCardAdd();
+
+            } else if (command.startsWith(eraseProduct)) {
+                store.eraseProduct();
+
+            } else if (command.startsWith(eraseAllProduct)) {
+                store.eraseAllProducts();
+
+            } else if (command.startsWith(clientList)) {
+                store.showClientList();
+
+            } else if (command.startsWith(showCart)) {
+                store.cartShow();
+
+            } else if (command.startsWith(showAll)) {
+                store.showAll();
+
+            } else if (command.startsWith(Exit)) {
+                System.out.println("Bye Bye and thanks for comming");
+                break;
             } else {
-                clientList.add(client);
-                System.out.println("Hello " + client.getName() + ",welcome to our shop ");
+                System.out.println("Unknown command");
             }
         }
+    }
+
+    void addClient() {
+        System.out.println("Please enter your name : ");
+        String name = scanner.nextLine();
+        System.out.println("Please enter your address : ");
+        String address = scanner.nextLine();
+        System.out.println("Please enter your birthday : ");
+        String birthday = scanner.nextLine();
+        Date parsed = null;
+
+
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        try {
+            parsed = simpleDateFormat.parse(birthday);
+        } catch (Exception e) {
+            System.out.println("data de nastere invalida. incepeti procesul din nou");
+            return;
+        }
+
+        Date now = new Date();
+        System.out.println("am obtinut informatiile");
+        System.out.println(" name => " + name);
+        System.out.println(" address => " + address);
+        System.out.println(" birthday => " + birthday);
+        System.out.println(" data inregistrarii => " + now);
+        Client client = new Client(name, address, parsed, now);
+
+        if (clientList.contains(client)) {
+            System.out.println("Client with name => " + name + " already exists");
+        } else {
+            clientList.add(client);
+            System.out.println("Hello " + client.getName() + ",welcome to our shop ");
+        }
+    }
+
     Laptop apple = new Laptop(800, 5, "Apple", 8, true);
+    // ADAUGA_PRODUS LAPTOP 800 5 APPLE 8 true
     Laptop samsung = new Laptop(950, 7, "Samsung", 8, true);
     Laptop hp = new Laptop(450, 15, "Hp", 6, false);
     Laptop asus = new Laptop(600, 3, "Asus", 8, false);
@@ -70,110 +150,42 @@ public class Store extends App {
     }
 
     void laptopCartAdd() {
-        for (Client client : clientList) {
-            boolean clientContain = clientList.contains(client);
-            if (scanner.nextLine().startsWith("apple")) {
-                client.getProductCart().add(apple);
-                System.out.println("The product " + apple + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("samsung")) {
-                client.getProductCart().add(samsung);
-                System.out.println("The product " + samsung + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("hp")) {
-                client.getProductCart().add(hp);
-                System.out.println("The product " + hp + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("asus")) {
-                client.getProductCart().add(asus);
-                System.out.println("The product " + asus + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("acer")) {
-                client.getProductCart().add(Acer);
-                System.out.println("The product " + Acer + " has been added yo your cart");
-            } else {
-                System.out.println("Unknown command");
-            }
-            if (!clientContain) {
-                System.out.println("Client does not exist");
-            }
-        }
+
     }
 
     void tvCartAdd() {
         for (Client client : clientList) {
-            boolean clientContain = clientList.contains(client);
-            if (scanner.nextLine().startsWith("nei")) {
-                client.getProductCart().add(nei);
-                System.out.println("The product " + nei + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("samsung")) {
-                client.getProductCart().add(samsungTv);
-                System.out.println("The product " + samsungTv + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("sony")) {
-                client.getProductCart().add(sony);
-                System.out.println("The product " + sony + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("apple")) {
-                client.getProductCart().add(appleTv);
-                System.out.println("The product " + appleTv + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("philips")) {
-                client.getProductCart().add(philips);
-                System.out.println("The product " + philips + " has been added yo your cart");
-            } else {
-                System.out.println("Unknown command");
-            }
-            if (!clientContain) {
-                System.out.println("Client does not exist");
-            }
+
         }
     }
 
     void phoneCardAdd() {
         for (Client client : clientList) {
-            boolean clientContain = clientList.contains(client);
-            if (scanner.nextLine().startsWith("iphone")) {
-                client.getProductCart().add(iphone);
-                System.out.println("The product " + iphone + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("samsung")) {
-                client.getProductCart().add(samsungPhone);
-                System.out.println("The product " + samsungPhone + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("huaway")) {
-                client.getProductCart().add(huawey);
-                System.out.println("The product " + huawey + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("sony")) {
-                client.getProductCart().add(sonyEricsson);
-                System.out.println("The product " + sonyEricsson + " has been added yo your cart");
-            } else if (scanner.nextLine().startsWith("nokia")) {
-                client.getProductCart().add(nokia);
-                System.out.println("The product " + nokia + " has been added yo your cart");
-            } else {
-                System.out.println("Unknown command");
-            }
-            if (!clientContain) {
-                System.out.println("Client does not exist");
+
+        }
+    }
+
+    void eraseProduct(String clientName, String productNameToErase) {
+        for (Client client : clientList) {
+            if (client.getName().equals(clientName)) {
+                //am gasit clientul din cosul caruia trebuie sa sterg produsul
+                client.getCart().removeProduct(productNameToErase);
             }
         }
     }
 
-    void eraseProduct() {
+    void eraseAllProducts(String clientName) {
         for (Client client : clientList) {
-            System.out.println("Please enter your name and the product you want to erase : ");
-            if (clientList.contains(client.getName())) {
-                if (client.getProductCart().contains(scanner.nextLine())) {
-                    client.getProductCart().remove(scanner.nextLine());
-                }
-                System.out.println("Your product  has been erased from your cart");
-            }
-        }
-    }
-
-    void eraseAllProducts() {
-        for (Client client : clientList) {
-            if (clientList.contains(client.getName())) {
-                client.getProductCart().clear();
-                System.out.println("All your products has been erased");
+            if (client.getName().equals(clientName)) {
+                //am gasit clientul din cosul caruia trebuie sa sterg produsul
+                client.getCart().clear();
             }
         }
     }
 
     void showClientList() {
         for (Client client : clientList) {
-            System.out.println(client.getName() + client.getRegistrationYear() + client.getProductCart());
+            System.out.println(client.getName() + client.getRegistrationDate() + client.getProductCart());
         }
     }
 
@@ -183,7 +195,7 @@ public class Store extends App {
 
     void showAll() {
         for (Client client : clientList) {
-            System.out.println("Client name = " + client.getName() + " registration year = " + client.getRegistrationYear() + " the products from your cart = " + client.getProductCart());
+            System.out.println("Client name = " + client.getName() + " registration date = " + client.getRegistrationDate() + " the products from your cart = " + client.getProductCart());
         }
 
     }

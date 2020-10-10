@@ -1,24 +1,26 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Client {
     private String name;
-    private String adress;
-    private double birthDate;
-    private int registrationYear;
-    public List<Product> getProductCart() {
-        return productCart;
+    private String address;
+    private Date birthDate;
+    private Date registrationDate;
+    private Cart cart;
+
+    public Client(String name, String address, Date birthDate, Date registrationDate) {
+        this.name = name;
+        this.address = address;
+        this.birthDate = birthDate;
+        this.registrationDate = registrationDate;
+        this.cart = new Cart(registrationDate, birthDate);
     }
-
-    private final List<Product> productCart = new ArrayList<>();
-
-
-
 
     public String toString () {
-        return "Clientul cu numele " + name + " Data nasterii "+ birthDate + " Si adresa " + adress +  " a fost inregistrat";
+        return "Clientul cu numele " + name + " Data nasterii "+ birthDate + " Si adresa " + address +  " a fost inregistrat";
     }
-
 
     public String getName() {
         return name;
@@ -29,38 +31,44 @@ public class Client {
     }
 
     public String getAdress() {
-        return adress;
+        return address;
     }
 
     public void setAdress(String adress) {
-        this.adress = adress;
+        this.address = adress;
     }
 
-    public double getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(double birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
-    public int getRegistrationYear() {
-        return registrationYear;
+    public Date getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setRegistrationYear(int registrationYear) {
-        this.registrationYear = registrationYear;
-    }
-    public Client (String name) {
-        this.name = name;
+    public void setRegistrationDate(Date registrationYear) {
+        this.registrationDate = registrationYear;
     }
 
-    public Client(String name, String adress, double birthDate, int registrationYear) {
-        this.name = name;
-        this.adress = adress;
-        this.birthDate = birthDate;
-        this.registrationYear = registrationYear;
+    public Cart getCart() {
+        return cart;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return name.equals(client.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }
 

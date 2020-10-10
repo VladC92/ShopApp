@@ -6,5 +6,6 @@ public class Tv extends Product {
         super(price, productStock, manufacturer);
         this.height = height;
         this.smart = smart;
+        this.name = "tv";
     }
 }
