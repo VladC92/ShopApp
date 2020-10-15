@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 public class Client {
@@ -18,8 +16,8 @@ public class Client {
         this.cart = new Cart(registrationDate, birthDate);
     }
 
-    public String toString () {
-        return "Clientul cu numele " + name + " Data nasterii "+ birthDate + " Si adresa " + address +  " a fost inregistrat";
+    public String toString() {
+        return "Clientul cu numele " + name + " Data nasterii " + birthDate + " Si adresa " + address + " a fost inregistrat";
     }
 
     public String getName() {

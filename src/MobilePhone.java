@@ -3,10 +3,10 @@ public class MobilePhone extends Product {
     private double cameraInMegapixels;
 
     public MobilePhone(int price, int productStock, String manufacturer, int batteryCapacity, double cameraInMegapixels) {
-        super(price, productStock, manufacturer);
+        super(price,manufacturer);
         this.batteryCapacity = batteryCapacity;
         this.cameraInMegapixels = cameraInMegapixels;
-        this.name = "mobile";
+        this.name = "Mobile Phone";
     }
 
     public int getBatteryCapacity() {

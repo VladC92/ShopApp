@@ -4,10 +4,14 @@ import java.util.*;
 public class Store {
     Scanner scanner = new Scanner(System.in);
     List<Client> clientList = new ArrayList<>();
+    List<Laptop> laptopStock = new ArrayList<>();
+    List<MobilePhone> mobilePhoneStock = new ArrayList<>();
+    List<Tv> tvStock = new ArrayList<>();
+
 
     public static void main(String[] args) {
         final String ADD_CLIENT = "ADAUGA_CLIENT";
-        final String ADD_PRODUCT = "ADAUGA_PRODUS_STOC";
+        final String ADD_PRODUCTSTOCK = "ADAUGA_PRODUS_STOC";
         final String cartAdd = "ADAUGA_PRODUS_COS";
         final String eraseProduct = "STERGE_PRODUS";
         final String eraseAllProduct = "STERGE_TOATE_PRODUSELE";
@@ -18,38 +22,51 @@ public class Store {
         Store store = new Store();
         Scanner scan = new Scanner(System.in);
         while (true) {
+            System.out.println("Please choose one of the following commands from down below : ");
+            ;
+            System.out.println();
+            System.out.println("1.ADAUGA_CLIENT ==> for adding a new client");
+            System.out.println("2.ADAUGA_PRODUS_STOC ==> for adding a new product in the store's stock");
+            System.out.println("3.ADAUGA_PRODUS_COS ==> for adding a product in client's cart");
+            System.out.println("4.STERGE_PRODUS ==> Erase a product from cart");
+            System.out.println("5.STERGE_TOATE_PRODUSELE ==> Erase all the products from client's cart");
+            System.out.println("6.AFISARE_CLIENTI ==> Show the whole client's list");
+            System.out.println("7.AFISARE_COS ==> see the client's cart");
+            System.out.println("8.AFISARE_COMPLETA ==> Show all the info");
+            System.out.println("0.EXIT ==> Exit ");
+            System.out.println("You can use either the letters of the command (only capital letters , ADAUGA_CLIENT) or write the number on the left from every command. ");
             String command = scan.nextLine();
-            if (command.startsWith(ADD_CLIENT)) {
+            if (command.startsWith(ADD_CLIENT) || command.startsWith("1")) {
                 store.addClient();
 
-            } else if (command.startsWith(ADD_PRODUCT)) {
-                System.out.println("Please choose one of the 3 section's we have : laptop , tv or phone");
-                store.laptopStock();
-                store.tvStock();
-                store.mobilePhoneStock();
+            } else if (command.startsWith(ADD_PRODUCTSTOCK) || command.startsWith("2")) {
+                System.out.println("Which product would you like to add? laptop,mobile phone or tv : ");
+                store.laptopStockAdd();
+                store.tvStockAdd();
+                store.mobilePhoneStockAdd();
 
-            } else if (command.startsWith(cartAdd)) {
+            } else if (command.startsWith(cartAdd) || command.startsWith("3")) {
                 store.laptopCartAdd();
                 store.tvCartAdd();
                 store.phoneCardAdd();
 
-            } else if (command.startsWith(eraseProduct)) {
-                store.eraseProduct();
+            } else if (command.startsWith(eraseProduct) || command.startsWith("4")) {
+                store.eraseProduct(scan.nextLine(), scan.nextLine());
 
-            } else if (command.startsWith(eraseAllProduct)) {
-                store.eraseAllProducts();
+            } else if (command.startsWith(eraseAllProduct) || command.startsWith("5")) {
+                store.eraseAllProducts(scan.nextLine());
 
-            } else if (command.startsWith(clientList)) {
+            } else if (command.startsWith(clientList) || command.startsWith("6")) {
                 store.showClientList();
 
-            } else if (command.startsWith(showCart)) {
+            } else if (command.startsWith(showCart) || command.startsWith("7")) {
                 store.cartShow();
 
-            } else if (command.startsWith(showAll)) {
+            } else if (command.startsWith(showAll) || command.startsWith("8")) {
                 store.showAll();
 
-            } else if (command.startsWith(Exit)) {
-                System.out.println("Bye Bye and thanks for comming");
+            } else if (command.startsWith(Exit) || command.startsWith("0")) {
+                System.out.println("Bye Bye and thanks for coming");
                 break;
             } else {
                 System.out.println("Unknown command");
@@ -58,6 +75,8 @@ public class Store {
     }
 
     void addClient() {
+        System.out.println("Add a new client");
+        System.out.println();
         System.out.println("Please enter your name : ");
         String name = scanner.nextLine();
         System.out.println("Please enter your address : ");
@@ -67,90 +86,74 @@ public class Store {
         Date parsed = null;
 
 
-
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         try {
             parsed = simpleDateFormat.parse(birthday);
         } catch (Exception e) {
-            System.out.println("data de nastere invalida. incepeti procesul din nou");
+            System.out.println("Wrong birthday date, try again");
             return;
         }
 
         Date now = new Date();
-        System.out.println("am obtinut informatiile");
-        System.out.println(" name => " + name);
-        System.out.println(" address => " + address);
-        System.out.println(" birthday => " + birthday);
-        System.out.println(" data inregistrarii => " + now);
+//        System.out.println(" Name => " + name);
+//        System.out.println(" Address => " + address);
+//        System.out.println(" Birthday => " + birthday);
+//        System.out.println(" Registration Date => " + now);
         Client client = new Client(name, address, parsed, now);
 
         if (clientList.contains(client)) {
-            System.out.println("Client with name => " + name + " already exists");
+            System.out.println("Client => " + name + " already exists");
         } else {
             clientList.add(client);
             System.out.println("Hello " + client.getName() + ",welcome to our shop ");
         }
     }
 
-    Laptop apple = new Laptop(800, 5, "Apple", 8, true);
-    // ADAUGA_PRODUS LAPTOP 800 5 APPLE 8 true
-    Laptop samsung = new Laptop(950, 7, "Samsung", 8, true);
-    Laptop hp = new Laptop(450, 15, "Hp", 6, false);
-    Laptop asus = new Laptop(600, 3, "Asus", 8, false);
-    Laptop Acer = new Laptop(400, 8, "Acer", 7, false);
-    Tv nei = new Tv(550, 5, "Nei", 138, false);
-    Tv samsungTv = new Tv(1230, 5, "Samsung", 160, true);
-    Tv sony = new Tv(1500, 3, "Sony", 180, true);
-    Tv appleTv = new Tv(1300, 5, "Apple", 180, true);
-    Tv philips = new Tv(350, 8, "Philips", 160, true);
-    MobilePhone iphone = new MobilePhone(900, 7, "Apple", 5800, 9.8);
-    MobilePhone samsungPhone = new MobilePhone(950, 10, "Samsung", 6300, 9);
-    MobilePhone huawey = new MobilePhone(850, 5, "Huawey", 6500, 12);
-    MobilePhone motorola = new MobilePhone(350, 5, "Motorola", 7500, 5);
-    MobilePhone nokia = new MobilePhone(550, 4, "Nokia", 8000, 3);
-    MobilePhone sonyEricsson = new MobilePhone(300, 10, "Sony", 4500, 4);
-
-    void laptopStock() {
-        if (scanner.nextLine().startsWith("laptop")) {
-            System.out.println("Down below you can see the laptop's stock number : ");
-            System.out.println("Apple  = " + apple.productStock);
-            System.out.println("Samsung  = " + samsung.productStock);
-            System.out.println("Hp  = " + hp.productStock);
-            System.out.println("Asus  = " + asus.productStock);
-            System.out.println("Acer  = " + Acer.productStock);
-        } else {
-            System.out.println("Unkown command");
-        }
-    }
-
-    void tvStock() {
-        if (scanner.nextLine().startsWith("tv")) {
-            System.out.println("Down below you can see the Tv's stock number : ");
-            System.out.println("Nei  = " + nei.productStock);
-            System.out.println("Samsung  = " + samsungTv.productStock);
-            System.out.println("Sony  = " + sony.productStock);
-            System.out.println("Apple  = " + appleTv.productStock);
-            System.out.println("Philips  = " + philips.productStock);
+    void laptopStockAdd() {
+        if (scanner.nextLine().startsWith("laptop") || scanner.nextLine().startsWith("Laptop")) {
+            System.out.println("Please enter manufacturer : ");
+            String manufacturer = scanner.nextLine();
+            System.out.println("Please enter the price : ");
+            int price = scanner.nextInt();
+            System.out.println("Please enter processor number : ");
+            int processorsNumber = scanner.nextInt();
+            System.out.println("Does the laptop has touchscreen? (Yes or No) : ");
+            String answer = scanner.nextLine();
+            Laptop laptop = new Laptop(price, manufacturer, processorsNumber, true);
+            if (laptopStock.contains(laptop)) {
+                System.out.println("This laptop type already exist , will add it to the existent stock ");
+                ;
+            } else {
+                laptopStock.add(laptop);
+                System.out.println("The new laptop has been added to the stock");
+                int laptopStock = laptop.getLaptopStock();
+                laptopStock++;
+            }
         } else {
             System.out.println("Unknown command");
         }
     }
 
-    void mobilePhoneStock() {
-        if (scanner.nextLine().startsWith("phone")) {
-            System.out.println("Down below you can see the Phone's stock number : ");
-            System.out.println("Iphone  = " + iphone.productStock);
-            System.out.println("Samsung  = " + samsungPhone.productStock);
-            System.out.println("Huaway  = " + huawey.productStock);
-            System.out.println("Sony  = " + sonyEricsson.productStock);
-            System.out.println("Nokia  = " + nokia.productStock);
+    void tvStockAdd() {
+        if (scanner.nextLine().startsWith("tv")) {
+        } else {
+            System.out.println("Unknown command");
+        }
+    }
+
+    void mobilePhoneStockAdd() {
+        if (scanner.nextLine().startsWith("phone stock")) {
         } else {
             System.out.println("Unknown command");
         }
     }
 
     void laptopCartAdd() {
+        if (scanner.nextLine().startsWith("laptop") || scanner.nextLine().startsWith("Laptop")) {
 
+        } else {
+            System.out.println("Unknown command");
+        }
     }
 
     void tvCartAdd() {
@@ -168,8 +171,10 @@ public class Store {
     void eraseProduct(String clientName, String productNameToErase) {
         for (Client client : clientList) {
             if (client.getName().equals(clientName)) {
-                //am gasit clientul din cosul caruia trebuie sa sterg produsul
+                System.out.println("Product " + productNameToErase + " from client " + clientName + " , has beed erased");
                 client.getCart().removeProduct(productNameToErase);
+            } else {
+                System.out.println("Client or product does not exist");
             }
         }
     }
@@ -177,15 +182,17 @@ public class Store {
     void eraseAllProducts(String clientName) {
         for (Client client : clientList) {
             if (client.getName().equals(clientName)) {
-                //am gasit clientul din cosul caruia trebuie sa sterg produsul
+                System.out.println("All products from client's " + clientName + " cart,has been erased");
                 client.getCart().clear();
+            } else {
+                System.out.println("Client does not exist");
             }
         }
     }
 
     void showClientList() {
         for (Client client : clientList) {
-            System.out.println(client.getName() + client.getRegistrationDate() + client.getProductCart());
+            System.out.println(client.getName() + client.getRegistrationDate() + client.getCart());
         }
     }
 
@@ -195,7 +202,12 @@ public class Store {
 
     void showAll() {
         for (Client client : clientList) {
-            System.out.println("Client name = " + client.getName() + " registration date = " + client.getRegistrationDate() + " the products from your cart = " + client.getProductCart());
+            if (clientList.contains(client)){
+                System.out.println("Client name = " + client.getName() + " registration date = " + client.getRegistrationDate() + " the products from your cart = " + client.getCart());
+
+            }else {
+                System.out.println("List is empty");
+            }
         }
 
     }
