@@ -41,18 +41,24 @@ public class Store {
 
             } else if (command.startsWith(ADD_PRODUCTSTOCK) || command.startsWith("2")) {
                 System.out.println("Which product would you like to add? laptop,mobile phone or tv : ");
-                store.laptopStockAdd();
-                store.tvStockAdd();
-                store.mobilePhoneStockAdd();
-
+                //aici trebuie sa decizi in functie de ce alege userul
+                String productType = scan.nextLine();
+                if ("LAPTOP".equalsIgnoreCase(productType)) {
+                    //aici adaugi laptop
+                } else if ("TV".equalsIgnoreCase(productType)) {
+                    //aici tratezi adaugarea de tv
+                } // else if mobille phone....
+                // else print "produsul X nu este suportat (pentru situatii cand ala tasteaza produs "vapor"
             } else if (command.startsWith(cartAdd) || command.startsWith("3")) {
-                store.laptopCartAdd();
-                store.tvCartAdd();
-                store.phoneCardAdd();
-
+               //aici e aceeasi poveste
+                //trebuie sa primesti de la tastatura numele userului pentru care vrei sa faci add, sa ii zicem X
+                //apoi trebuie sa citesti de la tastatura numele produsului pentru care faci add, sa ii zicem Y
+                //apoi, cauti in lista de useri, userul cu numele X
+                // daca il gasesti, cauti apoi in lista de produse dupa produsul cu numele Y
+                // daca il gasesti si acolo, in caruciorul userului X ii adaugi produsul Y
+                // trebuie sa ai grija si de "NR DE PRODUSE DIN STOC" (adica produsul Y daca avea 10 bucati pe stoc, acum are 9)
             } else if (command.startsWith(eraseProduct) || command.startsWith("4")) {
-                store.eraseProduct(scan.nextLine(), scan.nextLine());
-
+                //similar cu ce am scris mai sus la comanda 3
             } else if (command.startsWith(eraseAllProduct) || command.startsWith("5")) {
                 store.eraseAllProducts(scan.nextLine());
 
