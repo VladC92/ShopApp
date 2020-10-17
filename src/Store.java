@@ -4,10 +4,6 @@ import java.util.*;
 public class Store {
     Scanner scanner = new Scanner(System.in);
     List<Client> clientList = new ArrayList<>();
-    List<Laptop> laptopStock = new ArrayList<>();
-    List<MobilePhone> mobilePhoneStock = new ArrayList<>();
-    List<Tv> tvStock = new ArrayList<>();
-
 
     public static void main(String[] args) {
         final String ADD_CLIENT = "ADAUGA_CLIENT";
@@ -41,16 +37,55 @@ public class Store {
 
             } else if (command.startsWith(ADD_PRODUCTSTOCK) || command.startsWith("2")) {
                 System.out.println("Which product would you like to add? laptop,mobile phone or tv : ");
-                //aici trebuie sa decizi in functie de ce alege userul
                 String productType = scan.nextLine();
-                if ("LAPTOP".equalsIgnoreCase(productType)) {
-                    //aici adaugi laptop
-                } else if ("TV".equalsIgnoreCase(productType)) {
+                if ("Laptop".equalsIgnoreCase(productType) || "laptop".equalsIgnoreCase(productType)) {
+                    System.out.println("Please enter manufacturer : ");
+                    String manufacturer = scan.nextLine();
+                    System.out.println("Please enter the price : ");
+                    int price = scan.nextInt();
+                    System.out.println("Please enter processor number : ");
+                    int processorsNumber = scan.nextInt();
+                    System.out.println("Does the laptop has touchscreen? (Yes or No) : ");
+                    String answer = scan.nextLine();
+                    String touchscreen = answer;
+                    Laptop laptop = new Laptop(price, manufacturer, processorsNumber, true);
+                    if (answer.startsWith("Yes") || answer.startsWith("yes")) {
+                        touchscreen = "with Touchscreen";
+                    } else if (answer.startsWith("No") || answer.startsWith("no")) {
+                        touchscreen = "without Touchscreen";
+                    } else {
+                        laptop.setHasTouchScreen(false);
+                    }
+                    int laptopCounter = 0;
+                    List<Laptop> laptopStockList = new ArrayList<>();
+                    for (Laptop laptops : laptopStockList) {
+                        if (laptopStockList.contains(laptop)) {
+                            laptopCounter++;
+                        } else {
+                            laptopStockList.add(laptop);
+                        }
+                    }
+                    System.out.println("The new " + manufacturer + " " + productType + " has been added to the stock ");
+                    System.out.println("Details : ");
+                    System.out.println("Product : " + productType);
+                    System.out.println("Manufacturer : " + manufacturer);
+                    System.out.println("Price : " + price);
+                    System.out.println("Processors : " + processorsNumber);
+                    System.out.println("TouchScreen : " + touchscreen);
+                    System.out.println();
+
+
+                } else if ("Tv".equalsIgnoreCase(productType) || "tv".equalsIgnoreCase(productType)) {
                     //aici tratezi adaugarea de tv
-                } // else if mobille phone....
-                // else print "produsul X nu este suportat (pentru situatii cand ala tasteaza produs "vapor"
+                } else if ("Mobile Phone".equalsIgnoreCase(productType) || "mobile phone".equalsIgnoreCase(productType)) {
+
+                } else {
+                    System.out.println("The product you wrote,doesn't exist,try again");
+                    return;
+                }
+
             } else if (command.startsWith(cartAdd) || command.startsWith("3")) {
-               //aici e aceeasi poveste
+                //aici e aceeasi poveste
                 //trebuie sa primesti de la tastatura numele userului pentru care vrei sa faci add, sa ii zicem X
                 //apoi trebuie sa citesti de la tastatura numele produsului pentru care faci add, sa ii zicem Y
                 //apoi, cauti in lista de useri, userul cu numele X
@@ -113,54 +148,7 @@ public class Store {
             clientList.add(client);
             System.out.println("Hello " + client.getName() + ",welcome to our shop ");
         }
-    }
 
-    void laptopStockAdd() {
-        if (scanner.nextLine().startsWith("laptop") || scanner.nextLine().startsWith("Laptop")) {
-            System.out.println("Please enter manufacturer : ");
-            String manufacturer = scanner.nextLine();
-            System.out.println("Please enter the price : ");
-            int price = scanner.nextInt();
-            System.out.println("Please enter processor number : ");
-            int processorsNumber = scanner.nextInt();
-            System.out.println("Does the laptop has touchscreen? (Yes or No) : ");
-            String answer = scanner.nextLine();
-            Laptop laptop = new Laptop(price, manufacturer, processorsNumber, true);
-            if (laptopStock.contains(laptop)) {
-                System.out.println("This laptop type already exist , will add it to the existent stock ");
-                ;
-            } else {
-                laptopStock.add(laptop);
-                System.out.println("The new laptop has been added to the stock");
-                int laptopStock = laptop.getLaptopStock();
-                laptopStock++;
-            }
-        } else {
-            System.out.println("Unknown command");
-        }
-    }
-
-    void tvStockAdd() {
-        if (scanner.nextLine().startsWith("tv") || scanner.nextLine().startsWith("Tv")) {
-            System.out.println("Please enter manufacturer : ");
-            String manufacturer = scanner.nextLine();
-            System.out.println("Please enter the price : ");
-            int price = scanner.nextInt();
-            System.out.println("Please enter the height : ");
-            int height = scanner.nextInt();
-            System.out.println("Is the  Tv smart? (Yes or No) : ");
-            String answer = scanner.nextLine();
-            Tv tv = new Tv(price , manufacturer , height , true);
-        } else {
-            System.out.println("Unknown command");
-        }
-    }
-
-    void mobilePhoneStockAdd() {
-        if (scanner.nextLine().startsWith("phone stock")) {
-        } else {
-            System.out.println("Unknown command");
-        }
     }
 
     void laptopCartAdd() {
@@ -185,8 +173,8 @@ public class Store {
 
     void eraseProduct(String clientName, String productNameToErase) {
         for (Client client : clientList) {
-git add            if (client.getName().equals(clientName)) {
-                System.out.println("Product " + productNameToErase + " from client " + clientName + " , has been erased");
+            if (client.getName().equals(clientName)) {
+                System.out.println("Product " + productNameToErase + " from client " + clientName + " , has beed erased");
                 client.getCart().removeProduct(productNameToErase);
             } else {
                 System.out.println("Client or product does not exist");
@@ -217,10 +205,10 @@ git add            if (client.getName().equals(clientName)) {
 
     void showAll() {
         for (Client client : clientList) {
-            if (clientList.contains(client)){
+            if (clientList.contains(client)) {
                 System.out.println("Client name = " + client.getName() + " registration date = " + client.getRegistrationDate() + " the products from your cart = " + client.getCart());
 
-            }else {
+            } else {
                 System.out.println("List is empty");
             }
         }

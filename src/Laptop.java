@@ -5,8 +5,6 @@ public class Laptop extends Product {
 
     private int processorsNumber;
     private boolean hasTouchScreen;
-    Scanner scanner = new Scanner(System.in);
-    private String answer;
 
     public Laptop(int price, String manufacturer, int processorsNumber, boolean hasTouchScreen) {
         super(price, manufacturer);
