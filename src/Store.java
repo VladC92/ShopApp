@@ -141,7 +141,16 @@ public class Store {
     }
 
     void tvStockAdd() {
-        if (scanner.nextLine().startsWith("tv")) {
+        if (scanner.nextLine().startsWith("tv") || scanner.nextLine().startsWith("Tv")) {
+            System.out.println("Please enter manufacturer : ");
+            String manufacturer = scanner.nextLine();
+            System.out.println("Please enter the price : ");
+            int price = scanner.nextInt();
+            System.out.println("Please enter the height : ");
+            int height = scanner.nextInt();
+            System.out.println("Is the  Tv smart? (Yes or No) : ");
+            String answer = scanner.nextLine();
+            Tv tv = new Tv(price , manufacturer , height , true);
         } else {
             System.out.println("Unknown command");
         }
@@ -177,7 +186,7 @@ public class Store {
     void eraseProduct(String clientName, String productNameToErase) {
         for (Client client : clientList) {
             if (client.getName().equals(clientName)) {
-                System.out.println("Product " + productNameToErase + " from client " + clientName + " , has beed erased");
+                System.out.println("Product " + productNameToErase + " from client " + clientName + " , has been erased");
                 client.getCart().removeProduct(productNameToErase);
             } else {
                 System.out.println("Client or product does not exist");
