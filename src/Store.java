@@ -185,7 +185,7 @@ public class Store {
 
     void eraseProduct(String clientName, String productNameToErase) {
         for (Client client : clientList) {
-            if (client.getName().equals(clientName)) {
+git add            if (client.getName().equals(clientName)) {
                 System.out.println("Product " + productNameToErase + " from client " + clientName + " , has been erased");
                 client.getCart().removeProduct(productNameToErase);
             } else {

@@ -33,8 +33,7 @@ public class Laptop extends Product {
         if (o == null || getClass() != o.getClass()) return false;
         Laptop laptop = (Laptop) o;
         return processorsNumber == laptop.processorsNumber &&
-                hasTouchScreen == laptop.hasTouchScreen &&
-                Objects.equals(scanner, laptop.scanner);
+                hasTouchScreen == laptop.hasTouchScreen;
     }
 
     @Override
