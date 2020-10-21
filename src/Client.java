@@ -1,12 +1,14 @@
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
 
-public class Client {
+public class Client implements Comparator {
     private String name;
     private String address;
     private Date birthDate;
     private Date registrationDate;
     private Cart cart;
+    private  int clientsNumber = 0;
 
     public Client(String name, String address, Date birthDate, Date registrationDate) {
         this.name = name;
@@ -16,12 +18,12 @@ public class Client {
         this.cart = new Cart(registrationDate, birthDate);
     }
 
-    public String toString() {
-        return "Clientul cu numele " + name + " Data nasterii " + birthDate + " Si adresa " + address + " a fost inregistrat";
-    }
-
     public String getName() {
         return name;
+    }
+
+    public int getClientsNumber() {
+        return clientsNumber;
     }
 
     public void setName(String name) {
@@ -54,6 +56,11 @@ public class Client {
 
     public Cart getCart() {
         return cart;
+    }
+
+    @Override
+    public int compare(Object o1, Object o2) {
+        return 0;
     }
 
     @Override

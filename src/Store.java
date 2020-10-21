@@ -4,12 +4,15 @@ import java.util.*;
 public class Store {
     Scanner scanner = new Scanner(System.in);
     List<Client> clientList = new ArrayList<>();
+    List<Laptop> laptopStockList = new ArrayList<>();
+    List<Tv> tvStockList = new ArrayList<>();
+    List<MobilePhone> mobilePhoneList = new ArrayList<>();
 
     public static void main(String[] args) {
         final String ADD_CLIENT = "ADAUGA_CLIENT";
         final String ADD_PRODUCTSTOCK = "ADAUGA_PRODUS_STOC";
         final String cartAdd = "ADAUGA_PRODUS_COS";
-        final String eraseProduct = "STERGE_PRODUS";
+        final String removeProduct = "STERGE_PRODUS";
         final String eraseAllProduct = "STERGE_TOATE_PRODUSELE";
         final String clientList = "AFISARE_CLIENTI";
         final String showCart = "AFISARE_COS";
@@ -24,8 +27,8 @@ public class Store {
             System.out.println("1.ADAUGA_CLIENT ==> for adding a new client");
             System.out.println("2.ADAUGA_PRODUS_STOC ==> for adding a new product in the store's stock");
             System.out.println("3.ADAUGA_PRODUS_COS ==> for adding a product in client's cart");
-            System.out.println("4.STERGE_PRODUS ==> Erase a product from cart");
-            System.out.println("5.STERGE_TOATE_PRODUSELE ==> Erase all the products from client's cart");
+            System.out.println("4.STERGE_PRODUS ==> Remove a product from client's cart (Require client name and product name) ");
+            System.out.println("5.STERGE_TOATE_PRODUSELE ==> Remove all the products from client's cart(Require the client name) ");
             System.out.println("6.AFISARE_CLIENTI ==> Show the whole client's list");
             System.out.println("7.AFISARE_COS ==> see the client's cart");
             System.out.println("8.AFISARE_COMPLETA ==> Show all the info");
@@ -46,45 +49,98 @@ public class Store {
                     System.out.println("Please enter processor number : ");
                     int processorsNumber = scan.nextInt();
                     System.out.println("Does the laptop has touchscreen? (Yes or No) : ");
-                    String answer = scan.nextLine();
-                    String touchscreen = answer;
-                    Laptop laptop = new Laptop(price, manufacturer, processorsNumber, true);
+                    String answer = scan.next();
+                    Laptop laptop = new Laptop(price, manufacturer, processorsNumber, false);
                     if (answer.startsWith("Yes") || answer.startsWith("yes")) {
-                        touchscreen = "with Touchscreen";
+                        laptop.setHasTouchScreen(true);
+                        answer = "with Touchscreen";
                     } else if (answer.startsWith("No") || answer.startsWith("no")) {
-                        touchscreen = "without Touchscreen";
+                        answer = "without Touchscreen";
+                    }
+                    if (store.laptopStockList.contains(laptop)) {
+                        int laptopStock = laptop.getLaptopStock();
+                        laptopStock++;
+                        System.out.println("This product already exists and it has been added counter to the stock");
                     } else {
-                        laptop.setHasTouchScreen(false);
+                        store.laptopStockList.add(laptop);
                     }
-                    int laptopCounter = 0;
-                    List<Laptop> laptopStockList = new ArrayList<>();
-                    for (Laptop laptops : laptopStockList) {
-                        if (laptopStockList.contains(laptop)) {
-                            laptopCounter++;
-                        } else {
-                            laptopStockList.add(laptop);
-                        }
-                    }
-                    System.out.println("The new " + manufacturer + " " + productType + " has been added to the stock ");
-                    System.out.println("Details : ");
+                    System.out.println("Details of the product :");
+                    System.out.println("-------------------------");
                     System.out.println("Product : " + productType);
-                    System.out.println("Manufacturer : " + manufacturer);
-                    System.out.println("Price : " + price);
-                    System.out.println("Processors : " + processorsNumber);
-                    System.out.println("TouchScreen : " + touchscreen);
+                    System.out.println("Manufacturer : " + laptop.getManufacturer());
+                    System.out.println("Price : " + laptop.getPrice());
+                    System.out.println("Processors : " + laptop.getProcessorsNumber());
+                    System.out.println("TouchScreen : " + answer);
+                    System.out.println();
+                    System.out.println("The new " + manufacturer + " " + productType + " has been added to the stock ");
+                } else if ("Tv".equalsIgnoreCase(productType) || "tv".equalsIgnoreCase(productType)) {
+                    System.out.println("Please enter manufacturer : ");
+                    String manufacturer = scan.nextLine();
+                    System.out.println("Please enter the price : ");
+                    int price = scan.nextInt();
+                    System.out.println("Please enter processor number : ");
+                    int height = scan.nextInt();
+                    System.out.println("Is the Tv smart? (Yes or No) : ");
+                    String answer = scan.next();
+                    Tv tv = new Tv(price, manufacturer, height, false);
+                    if (answer.startsWith("Yes") || answer.startsWith("yes")) {
+                        tv.setSmart(true);
+                        answer = "Smart Tv";
+                    } else if (answer.startsWith("No") || answer.startsWith("no")) {
+                        answer = "Not smart";
+                    }
+                    tv.setSmart(false);
+                    if (store.tvStockList.contains(tv)) {
+                        int tvStock = tv.getTvStock();
+                        tvStock++;
+                        System.out.println("This product already exist and will be added to the existent counter");
+                    } else {
+                        store.tvStockList.add(tv);
+                        System.out.println("The new " + productType + tv.getManufacturer() + " has been added to the stock");
+                    }
+                    System.out.println("Details of the product : ");
+                    System.out.println("-------------------------");
+                    System.out.println("Product : " + productType);
+                    System.out.println("Manufacturer : " + tv.getManufacturer());
+                    System.out.println("Price : " + tv.getPrice());
+                    System.out.println("Height : " + tv.getHeight());
+                    System.out.println("Smart : " + answer);
                     System.out.println();
 
-
-                } else if ("Tv".equalsIgnoreCase(productType) || "tv".equalsIgnoreCase(productType)) {
-                    //aici tratezi adaugarea de tv
                 } else if ("Mobile Phone".equalsIgnoreCase(productType) || "mobile phone".equalsIgnoreCase(productType)) {
-
+                    System.out.println("Please enter manufacturer : ");
+                    String manufacturer = scan.nextLine();
+                    System.out.println("Please enter the price : ");
+                    int price = scan.nextInt();
+                    System.out.println("Please enter processor number : ");
+                    int batteryCapacity = scan.nextInt();
+                    System.out.println("Megapixels of the camera : ");
+                    double cameraInMegapixels = scan.nextDouble();
+                    MobilePhone phone = new MobilePhone(price, manufacturer, batteryCapacity, cameraInMegapixels);
+                    if (store.mobilePhoneList.contains(phone)) {
+                        int mobilePhoneStock = phone.getMobilePhoneStock();
+                        mobilePhoneStock++;
+                        System.out.println("This product already exists and it has been added to the existent counter");
+                    } else {
+                        store.mobilePhoneList.add(phone);
+                    }
+                    System.out.println("Details of the prduct : ");
+                    System.out.println("-------------------------");
+                    System.out.println("Product : " + productType);
+                    System.out.println("Manufacturer : " + phone.getManufacturer());
+                    System.out.println("Price : " + phone.getPrice());
+                    System.out.println("Battery Capacity : " + phone.getBatteryCapacity());
+                    System.out.println("Camera Megapixels : " + phone.getCameraMp());
+                    System.out.println();
+                    System.out.println("The new " + productType + phone.getManufacturer() + " has been added to the stock");
                 } else {
                     System.out.println("The product you wrote,doesn't exist,try again");
                     return;
                 }
 
             } else if (command.startsWith(cartAdd) || command.startsWith("3")) {
+                System.out.println("Please enter your client name and the product you want to add from your cart : ");
+
                 //aici e aceeasi poveste
                 //trebuie sa primesti de la tastatura numele userului pentru care vrei sa faci add, sa ii zicem X
                 //apoi trebuie sa citesti de la tastatura numele produsului pentru care faci add, sa ii zicem Y
@@ -92,10 +148,14 @@ public class Store {
                 // daca il gasesti, cauti apoi in lista de produse dupa produsul cu numele Y
                 // daca il gasesti si acolo, in caruciorul userului X ii adaugi produsul Y
                 // trebuie sa ai grija si de "NR DE PRODUSE DIN STOC" (adica produsul Y daca avea 10 bucati pe stoc, acum are 9)
-            } else if (command.startsWith(eraseProduct) || command.startsWith("4")) {
-                //similar cu ce am scris mai sus la comanda 3
+            } else if (command.startsWith(removeProduct) || command.startsWith("4")) {
+                System.out.println("Please enter your client name : ");
+                String name = scan.nextLine();
+                System.out.println("Now please enter the product name you want to remove");
+                String product = scan.nextLine();
+                store.removeProduct(name, product);
             } else if (command.startsWith(eraseAllProduct) || command.startsWith("5")) {
-                store.eraseAllProducts(scan.nextLine());
+                store.removeAllProducts(scan.nextLine());
 
             } else if (command.startsWith(clientList) || command.startsWith("6")) {
                 store.showClientList();
@@ -147,71 +207,77 @@ public class Store {
         } else {
             clientList.add(client);
             System.out.println("Hello " + client.getName() + ",welcome to our shop ");
+            System.out.println("");
+            System.out.println("");
         }
 
     }
 
-    void laptopCartAdd() {
-        if (scanner.nextLine().startsWith("laptop") || scanner.nextLine().startsWith("Laptop")) {
-
-        } else {
-            System.out.println("Unknown command");
-        }
-    }
-
-    void tvCartAdd() {
-        for (Client client : clientList) {
-
-        }
-    }
-
-    void phoneCardAdd() {
-        for (Client client : clientList) {
-
-        }
-    }
-
-    void eraseProduct(String clientName, String productNameToErase) {
+    void removeProduct(String clientName, String productNameToRemove) {
         for (Client client : clientList) {
             if (client.getName().equals(clientName)) {
-                System.out.println("Product " + productNameToErase + " from client " + clientName + " , has beed erased");
-                client.getCart().removeProduct(productNameToErase);
-            } else {
-                System.out.println("Client or product does not exist");
+                Cart cart = client.getCart();
+                cart.removeProduct(productNameToRemove);
+                if (productNameToRemove.equalsIgnoreCase("tv") || productNameToRemove.equalsIgnoreCase("Tv")) {
+                    for (Tv tv : tvStockList) {
+                        int tvStock = tv.getTvStock();
+                        cart.removeProduct(productNameToRemove);
+                        tvStock--;
+                        System.out.println("The product has been removed from your cart");
+                    }
+                } else if (productNameToRemove.equalsIgnoreCase("phone") ||
+                        productNameToRemove.equalsIgnoreCase("Phone") || productNameToRemove.equalsIgnoreCase("Mobile phone")) {
+                    for (MobilePhone phone : mobilePhoneList) {
+                        int mobilePhoneStock = phone.getMobilePhoneStock();
+                        cart.removeProduct(productNameToRemove);
+                        mobilePhoneStock--;
+                        System.out.println("The product has been removed from your cart");
+                    }
+                } else if (productNameToRemove.equalsIgnoreCase("laptop") || productNameToRemove.equalsIgnoreCase("Laptop")) {
+                    for (Laptop laptop : laptopStockList) {
+                        int laptopStock = laptop.getLaptopStock();
+                        cart.removeProduct(productNameToRemove);
+                        laptopStock--;
+                        System.out.println("The product has been removed from your cart");
+                    }
+                }else {
+                    System.out.println("Wrong client name or product");
+                }
             }
-        }
-    }
-
-    void eraseAllProducts(String clientName) {
-        for (Client client : clientList) {
-            if (client.getName().equals(clientName)) {
-                System.out.println("All products from client's " + clientName + " cart,has been erased");
-                client.getCart().clear();
-            } else {
-                System.out.println("Client does not exist");
-            }
-        }
-    }
-
-    void showClientList() {
-        for (Client client : clientList) {
-            System.out.println(client.getName() + client.getRegistrationDate() + client.getCart());
-        }
-    }
-
-    void cartShow() {
-
-    }
-
-    void showAll() {
-        for (Client client : clientList) {
-            if (clientList.contains(client)) {
-                System.out.println("Client name = " + client.getName() + " registration date = " + client.getRegistrationDate() + " the products from your cart = " + client.getCart());
-
-            } else {
-                System.out.println("List is empty");
             }
         }
 
+        void removeAllProducts (String clientName){
+            for (Client client : clientList) {
+                if (client.getName().equals(clientName)) {
+                    client.getCart().clear();
+                    System.out.println("All products from client's " + clientName + " cart has been removed");
+                } else {
+                    System.out.println("Client does not exist");
+                }
+            }
+        }
+
+        void showClientList () {
+            for (Client client : clientList) {
+                System.out.println(client.getName() + client.getRegistrationDate() + client.getCart());
+            }
+        }
+
+        void cartShow () {
+
+        }
+
+        void showAll () {
+            for (Client client : clientList) {
+                if (clientList.contains(client)) {
+                    System.out.println("Client name = " + client.getName() +
+                            " registration date = " + client.getRegistrationDate() +
+                            " the products from your cart = " + client.getCart());
+                } else {
+                    System.out.println("List is empty");
+                }
+            }
+
+        }
     }
-}

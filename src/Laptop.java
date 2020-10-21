@@ -1,10 +1,14 @@
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Laptop extends Product {
 
     private int processorsNumber;
     private boolean hasTouchScreen;
+    private int laptopStock = 0;
+
+    public int getLaptopStock() {
+        return laptopStock;
+    }
 
     public Laptop(int price, String manufacturer, int processorsNumber, boolean hasTouchScreen) {
         super(price, manufacturer);

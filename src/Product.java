@@ -10,7 +10,6 @@ public class Product {
     public Product(int price, String manufacturer) {
         this.price = price;
         this.manufacturer = manufacturer;
-        this.name = "Laptop";
     }
 
     public int getLaptopStock() {
